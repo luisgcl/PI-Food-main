@@ -1,0 +1,112 @@
+.container {
+    background-image: url('https://i.makeagif.com/media/1-04-2021/8XH2EB.gif');
+    background-size: 100%;
+    position: absolute;
+    /* height: 100%; */
+    width: 100%;
+}
+
+.text {
+    color: white;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 50px;
+    
+ }
+
+ .cards:hover {
+   margin-top: 10px;
+   
+ } 
+ 
+
+
+nav {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.button {
+    height: 42px;
+    background-color: white;
+    border-radius: 8px;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.link {
+    height: 30px;
+    background-color: white;
+    border-radius: 8px;
+    color: black;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.link:hover {
+    background: rgb(48, 15, 110);
+    color: white;
+}
+
+
+.button:hover {
+    background: rgb(48, 15, 110);
+    color: white;
+}
+
+.contentSelect select::-ms-expand {
+    display: none;
+}
+
+.contentSelect{
+	max-width: 250px;
+	position: relative;
+}
+ 
+.contentSelect select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    position: relative;
+    transition: all 0.25s ease;
+    appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+    font-size: 20px;
+    max-width: 150px;
+    min-width: 150px;
+    text-align: center;
+}
+
+.hr {
+    border: 1px solid;
+}

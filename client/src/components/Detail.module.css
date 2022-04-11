@@ -1,0 +1,23 @@
+.divDetail {
+    background-image: url('https://static.wixstatic.com/media/6221c1_96815e605051486d8b5b730014023296~mv2.gif');
+    background-size: 100% 100%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.fontColor {
+    color: white;
+}
+
+.homeButton {
+	/* width:100%; */
+	padding:8px 16px;
+	margin-top:32px;
+	border:1px solid #000;
+	border-radius:5px;
+	/* display:block; */
+	color:#fff;
+	background-color:#000;
+    cursor: pointer;
+}
