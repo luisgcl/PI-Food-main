@@ -34,9 +34,9 @@ export function getNameGames(name) {
     }
 }
 
-export function getId(id) {
+export function getDetail(id) {
     return async (dispatch) => {
-        let json = await axios.get(`http://localhost:3001/recipes/${id}`);
+        let json = await axios.get(`http://localhost:3001/recipes/`+id);
         console.log("esto es action: ", json)
         return dispatch({
             type: 'GET_ID',

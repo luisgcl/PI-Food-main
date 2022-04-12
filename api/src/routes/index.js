@@ -13,7 +13,7 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
     const apiInfo = await apiUrl.data.results?.map(el => {
         return {
             id: el.id,
@@ -24,69 +24,55 @@ const getApiInfo = async () => {
             summary: el.summary,
             score: el.spoonacularScore,
             healthScore: el.healthScore,
-            steps: el.analyzedInstructions[0]?.steps.map((el) => {
-                return {
-                  number: el.number,
-                  step: el.step,
-                };
-              }),
+            steps: el.analyzedInstructions[0]?.steps.map(pos=>{
+              return pos.step
+          })
         };
     });
     return apiInfo;
 }
 
-const getDbInfo = async () => {
-   const infoDb = await Recipe.findAll({
-        include: {
-            model: Diet,
-            attributes: ["name"],
-            through: {
-                attributes: [],
-            }
-        }
-    })
-    const mapInfoDb = infoDb?.map((e) => {
-      return {
-        id: el.id,
-            name: el.title,
-            image: el.image,
-            diets: el.diets?.map(d => d.name),
-            summary: el.summary,
-            score: el.spoonacularScore,
-            healthScore: el.healthScore,
-            steps: el.analyzedInstructions[0]?.steps.map((el) => {
-                return {
-                  number: el.number,
-                  step: el.step,
-                };
-              }),
-        createdInDb: e.createdInDb,
-      };
-    });
-    return mapInfoDb;
+const GetDbInfo = async () => {
+  return await Recipe.findAll({
+      include:{
+          model: Diet,
+          atributes: ["name"],
+          through:{
+              attributes: [],
+          },
+      }
+  })
 }
-
 
 const getAllRecipes = async () => {
-    const apiInfo = await getApiInfo();
-    const dbInfo = await getDbInfo();
-    const infoTotal = await apiInfo.concat(dbInfo);
-    return infoTotal;
+  let apiInfo = await getApiInfo();
+  const dbInfo = await GetDbInfo();
+  const infoTotal =apiInfo.concat(dbInfo);
+  return infoTotal
 }
 
-//rutas
-router.get('/recipes', async (req, res) => {
-    const name = req.query.name;
-    let recipesTotal = await getAllRecipes();
-    if(name) {
-        recipeName = recipesTotal.filter(e => e.name.toLowerCase().includes(name.toLowerCase()))
-        recipeName.length ?
-        res.status(200).send(recipeName) :
-        res.status(404).send('recipe no encontrado')
-    }else {
-        res.status(200).send(recipesTotal)
-    }
-})
+
+router.get("/recipes", async (req, res) => {
+  const { name } = req.query;
+      const recipesTotal = await getAllRecipes()
+  try{
+      if (name) {
+          let recipeTitle = await recipesTotal.filter((r) =>
+              r.title.toLowerCase().includes(
+                  name.toLowerCase())
+          );
+          recipeTitle.length
+              ? res.status(200).json(recipeTitle)
+              : res.status(400).send("This recipe doesn't exist");
+      } else {
+          res.status(200).json(recipesTotal);
+      }
+  }catch(error){
+      console.log(error)
+  }
+  
+
+});
 
 router.get("/recipes/:id", async (req, res) => {
     try {

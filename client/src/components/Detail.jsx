@@ -1,44 +1,54 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
-// import styles from './Detail.module.css'
-import {useParams} from 'react-router-dom'
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getId, vaciarDetail } from '../actions';
+import React from "react";
+import { Link , useParams} from "react-router-dom"
+import { useDispatch , useSelector } from "react-redux"
+import { useEffect } from "react";
+import { getDetail } from "../actions";
+import styles from "./Detail.module.css"
 
-
-export default function Detail() {
+export default function DetailRecipe(){
+    
     const dispatch = useDispatch()
-    let { id } = useParams();
-    const recipeId = useSelector((state) => state.id)
-    
-    
+    const recipeId = useParams()
+    const detailRecipe = useSelector((state) => state.id) 
+    console.log(detailRecipe)
     useEffect(() => {
-        dispatch(getId(id))
-        return () => {
-            dispatch(vaciarDetail())
-        }
-    }, [dispatch, id])
- 
+        dispatch(getDetail(recipeId.id))
+    },[dispatch])
+
     return (
-        <div>
+        <div className={styles.container}>
             <div>
-                {console.log(recipeId)}
-            <h3>{recipeId.name}</h3>
-            <img src={recipeId.image ? recipeId.image : 'https://www.trecebits.com/wp-content/uploads/2019/04/11854.jpg'} alt="img not found" width="200px" height="250px" />
-            <h3>Tipos de dieta: {recipeId.diets?.map(d => d) + ", "}</h3>
-            <h3>Resumen del plato: {recipeId.summary}</h3>
-            <h3>Paso a paso: {recipeId.steps.map(s => {
-                return {
-                    number: s.number,
-                    step: s.step
-                }
-            })}</h3>
-            <h5>Puntuacion: {recipeId.score}</h5>
-            <h4>Nivel de comida saludable: {recipeId.healthScore}</h4>
+            {
+                (detailRecipe.length === 0) ? 
+                    <div className={styles.container}>
+                        <p className={styles.loading}>Loading ...</p>
+                    </div> 
+                :
+                    <div className={styles.box}>
+                        <img className={styles.image} src={detailRecipe.image} alt="No Image Found"/>
+                        <h1 className={styles.mainTitle}>{detailRecipe.title}</h1>
+                        <h3 className={styles.subTitle}>Summary</h3>
+                        <p className={styles.info}>{detailRecipe.summary}</p>
+                        <h3 className={styles.subTitle}>Steps</h3>
+                        <p className={styles.info}>{detailRecipe.steps?.map(r => (<li className={styles.diets}>{r.step} </li>))}</p>
+                        <h3 className={styles.subTitle}>Spoonacular Score</h3>
+                        <p className={styles.info}>{detailRecipe.score}</p>
+                        <h3 className={styles.subTitle}>Health Score</h3>
+                        <p className={styles.info}>{detailRecipe.healthScore}</p>
+                        <h3 className={styles.subTitle}>Diets</h3>
+                        <p className={styles.info}>{detailRecipe.diets?.map(r => (<li className={styles.diets}>{r} </li>))}</p>
+               
+                    </div>
+                    
+                
+            }
             </div>
-           
-            <Link to= '/home'><button>Volver</button></Link>
+            <div className={styles.boxButton}>
+                <Link to="/home">
+                    <button className={styles.button} >Go back!</button>
+                </Link>
+            </div>
         </div>
-    );
+    )
+
 }
