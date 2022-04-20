@@ -13,14 +13,14 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=10`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
     const apiInfo = await apiUrl.data.results?.map(el => {
         return {
             id: el.id,
             name: el.title,
             image: el.image,
             dishTypes: el.dishTypes,
-            diets: el.diets,
+            diets: el.diets.join(""),
             summary: el.summary,
             score: el.spoonacularScore,
             healthScore: el.healthScore,
@@ -57,8 +57,8 @@ router.get("/recipes", async (req, res) => {
       const recipesTotal = await getAllRecipes()
   try{
       if (name) {
-          let recipeTitle = await recipesTotal.filter((r) =>
-              r.title.toLowerCase().includes(
+          let recipeTitle =  recipesTotal.filter((r) =>
+              r.name.toLowerCase().includes(
                   name.toLowerCase())
           );
           recipeTitle.length
@@ -158,6 +158,7 @@ res.status(200).send(allDiets);
       let dietDb = await Diet.findAll({
         where: { name: diets }
       })
+      console.log(dietDb)
       recipeCreated.addDiet(dietDb)
       res.send("receta creada con exito!")
     } catch(error){

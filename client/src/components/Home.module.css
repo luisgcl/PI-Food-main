@@ -1,9 +1,23 @@
-.container {
+/* .container {
     background-image: url('https://i.makeagif.com/media/1-04-2021/8XH2EB.gif');
     background-size: 100%;
     position: absolute;
     /* height: 100%; */
+    /* width: 100%; */
+/* } */ 
+
+.container {
     width: 100%;
+    height: 100%;
+    background-image: url("https://cdn.aarp.net/content/dam/aarp/food/recipes/2020/07/1140-vegan-omelette-esp.jpg"); 
+    display: flex;
+    flex-direction: column;
+    background-position: center; 
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    /* scroll-behavior: smooth; */
+    background-attachment: fixed;
 }
 
 .text {

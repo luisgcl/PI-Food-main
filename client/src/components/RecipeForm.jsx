@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDiets, getRecipes, postRecipe } from '../actions';
 
+import styles from './RecipeForm.module.css'
+
 export default function RecipeForm () {
     const dispatch = useDispatch();
     const diets = useSelector(state => state.diets);
@@ -102,10 +104,10 @@ export default function RecipeForm () {
     }, [dispatch])
 
     return (
-        <div>
-            <Link to='/home'><button>Home</button></Link>
+        <div className={styles.divGames}>
+            <Link to='/home'><button className={styles.homeButton}>Home</button></Link>
             <h1>Crea tu receta</h1>
-            <form onSubmit={e => handleSubmit(e)}>
+            <form className={styles.allForm} onSubmit={e => handleSubmit(e)}>
                <div>
                    <label htmlFor="">Nombre: </label>
                    <input 
@@ -154,7 +156,7 @@ export default function RecipeForm () {
                     ></textarea>
                </div>
 
-               <div>
+               <div className={styles.contentSelect}>
                     <label htmlFor="">Tipos de dieta: </label>
                     <select onChange={e => handleSelect(e)}>
                         {diets.map((d) => (
@@ -163,7 +165,7 @@ export default function RecipeForm () {
                     </select>
                 </div>
 
-                <button type='submit'>Crear receta</button>
+                <button className={styles.formButton} type='submit'>Crear receta</button>
 
             </form>
 
