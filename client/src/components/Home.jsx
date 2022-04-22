@@ -56,6 +56,7 @@ export default function Home () {
         dispatch(filterCreated(e.target.value))
     }
 
+    //Muestra el filtrado de las dietas
     function handleDietFiltered(e) {
         e.preventDefault()
         dispatch(dietFiltered(e.target.value))
@@ -64,7 +65,16 @@ export default function Home () {
 
     return (
         <div className={styles.container}>
-            <nav>
+            <div>
+
+            {
+                (recipes.length === 0) ?
+                <div className={styles.loading}>
+                    {/* <p>Loading...</p> */}
+                </div> :
+
+                <div>
+                    <nav>
             <Link to='/recipe' className={styles.link}>Crear receta</Link>
 
             <button className={styles.button} onClick={e => { handleClick(e) }}>
@@ -134,6 +144,16 @@ export default function Home () {
                         })
                     }
                 </div>
+
+                <Paginated 
+                 recipePerPage={recipePerPage}
+                 recipes={recipes.length}
+                 paginated={paginated}
+                />
+                </div>
+            }
+            </div>
+            
         </div>
 
         

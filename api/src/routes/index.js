@@ -20,7 +20,7 @@ const getApiInfo = async () => {
             name: el.title,
             image: el.image,
             dishTypes: el.dishTypes,
-            diets: el.diets.join(""),
+            diets: el.diets,
             summary: el.summary,
             score: el.spoonacularScore,
             healthScore: el.healthScore,

@@ -29,7 +29,7 @@ export default function DetailRecipe(){
                 :
                     <div className={styles.box}>
                         <h1>{detailRecipe.name}</h1>
-                        <img className={styles.image} src={detailRecipe.image} alt="No Found"/>
+                        <img className={styles.image} src={detailRecipe.image ? detailRecipe.image : "https://www.vidasostenible.org/wp-content/uploads/2018/06/tresplatoscocinasostenible.jpg"} alt="No Found"/>
                         <h1 className={styles.mainTitle}>{detailRecipe.title}</h1>
                         <h3 className={styles.subTitle}>Summary</h3>
                         <p className={styles.info}>{detailRecipe.summary}</p>
@@ -45,20 +45,9 @@ export default function DetailRecipe(){
                         <h3 className={styles.subTitle}>Health Score</h3>
                         <p className={styles.info}>{detailRecipe.healthScore}</p>
                         <h3 className={styles.subTitle}>Diets</h3>
-                        
-                        {Array.isArray(detailRecipe.diets) ?
-                  detailRecipe.diets.map((el,i)=>{
-
-                    return <div key={i}>
-                      <p key={i}> {el.name}</p>
-                        </div>
-                  }): detailRecipe.diets.split(",").map((el,i)=>{
-
-                    return <div key={i}>
-                      <p key={i}> {el}</p>
-                        </div>
-                  })
-                }
+                        <p className={styles.info}>{ detailRecipe.diets[0] instanceof String ?
+                        detailRecipe.diets.map(d => d).join(", ") : detailRecipe.diets.map(d => d.name).join(", ")}</p>
+                            
                     </div>
                     
                 
