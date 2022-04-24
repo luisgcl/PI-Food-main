@@ -13,14 +13,14 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=5`);
     const apiInfo = await apiUrl.data.results?.map(el => {
         return {
             id: el.id,
             name: el.title,
             image: el.image,
             dishTypes: el.dishTypes,
-            diets: el.diets,
+            diets: el.diets.join(", "),
             summary: el.summary,
             score: el.spoonacularScore,
             healthScore: el.healthScore,
@@ -76,50 +76,14 @@ router.get("/recipes", async (req, res) => {
 
 router.get("/recipes/:id", async (req, res) => {
     try {
-      const id = req.params.id;
-      if (!uuidValidate(id)) {
-        const recipeId = await axios.get(
-          `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`
-        );
-        const recipeInfo = {
-          id: recipeId.data.id,
-          name: recipeId.data.title,
-          image: recipeId.data.image,
-          summary: recipeId.data.summary,
-          score: recipeId.data.spoonacularScore,
-          healthScore: recipeId.data.healthScore,
-          dishTypes: recipeId.data.dishTypes,
-          diets: recipeId.data.diets,
-          steps: recipeId.data.analyzedInstructions[0]?.steps.map((el) => {
-            return {
-              number: el.number,
-              step: el.step,
-            };
-          }),
-        };
-        recipeInfo
-          ? res.status(200).send(recipeInfo)
-          : res.status(404).send("No existe el ID ingresado!!");
-      } else {
-        const recipeDb = await Recipe.findByPk(id, {
-          include: Diet,
-        });
-        const recipeIdDb = {
-          id: recipeDb.id,
-          name: recipeDb.name,
-          image: recipeDb.image,
-          summary: recipeDb.summary,
-          score: recipeDb.score,
-          healthScore: recipeDb.healthScore,
-          // dishTypes: recipeDb.dishTypes,
-          diets: recipeDb.diets,
-          steps: recipeDb.steps,
-          createdInDb: recipeDb.createdInDb,
-        };
-        recipeIdDb
-          ? res.status(200).send(recipeIdDb)
-          : res.status(404).send("No existe el ID ingresado!!");
-      }
+      const {id} = req.params;
+      const recipesTotals = await getAllRecipes()
+      if (id) {
+        let recipeId = await recipesTotals.filter((r) => r.id == id);
+        recipeId.length
+            ? res.status(200).json(recipeId)
+            : res.status(404).send("Recipe not found");
+    }
     } catch (error) {
       console.log(error);
     }
