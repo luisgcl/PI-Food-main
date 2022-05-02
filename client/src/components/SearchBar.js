@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getNameGames } from '../actions';
+import { getNameRecipes } from '../actions';
 import styles from './SearchBar.module.css'
 
 export default function SearchBar() {
@@ -15,7 +15,7 @@ export default function SearchBar() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(getNameGames(name))
+        dispatch(getNameRecipes(name)) 
         document.getElementById("formulario").reset();
     }
 

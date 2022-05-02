@@ -20,12 +20,12 @@ export function getDiets() {
     }
 }
 
-export function getNameGames(name) {
+export function getNameRecipes(name) {
     return async function (dispatch) {
         try {
             var json = await axios.get("http://localhost:3001/recipes?name=" + name);
             return dispatch({
-                type: 'GET_NAME_GAMES',
+                type: 'GET_NAME_RECIPES',
                 payload: json.data
             })
         }catch(error) {
@@ -44,11 +44,7 @@ export function getDetail(id) {
     }
 }
 
-export function vaciarDetail() {
-    return  {
-        type: "VACIAR_DETAIL"
-    }
-}
+
 
 export function orderByName(payload) {
     return {
@@ -75,6 +71,12 @@ export function filterCreated(payload) {
 export function dietFiltered(payload) {
     return {
         type: 'DIET_FILTERED',
+        payload
+    }
+}
+export function buttonDiet(payload) {
+    return {
+        type: 'BUTTON_DIET',
         payload
     }
 }

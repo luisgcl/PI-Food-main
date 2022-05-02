@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { getDiets, getRecipes, orderByName, orderByScore, filterCreated, dietFiltered } from '../actions';
+import { getDiets, getRecipes, orderByName, orderByScore, filterCreated, dietFiltered, buttonDiet } from '../actions';
 import Card from './Card';
 import Paginated from './Paginated';
 import SearchBar from './SearchBar';
@@ -37,6 +37,12 @@ export default function Home () {
         setCurrentPage(1)
     }
 
+    // function handleClickDiet(e) {
+    //     diet.map(d) => {
+
+    //     }
+    // }
+
     //Ordenar nombre ascendente y descendente
     function handleSort(e) {
         dispatch(orderByName(e.target.value))
@@ -63,6 +69,11 @@ export default function Home () {
         setCurrentPage(1)
     }
 
+    function handleButtonDiet(e) {
+        dispatch(buttonDiet("vegetarian"))
+        setCurrentPage(1)
+    }
+
     return (
         <div className={styles.container}>
             <div>
@@ -80,6 +91,8 @@ export default function Home () {
             <button className={styles.button} onClick={e => { handleClick(e) }}>
                     cargar recetas
                 </button>
+
+                <button onClick={e => handleButtonDiet(e) }>vegan</button>
 
             <div className={styles.contentSelect}>
                     <select onChange={e => handleSort(e)}>
@@ -118,7 +131,7 @@ export default function Home () {
 
                 <hr className={styles.hr}/>
 
-                <h1 className={styles.text}>Hello World</h1>
+                <h1 className={styles.text}>Hello Chef</h1>
 
                 <Paginated 
                  recipePerPage={recipePerPage}
@@ -136,6 +149,7 @@ export default function Home () {
                                     name={c.name}
                                     image={c.image}
                                     diets={c.diets}
+                                    score={c.score}
                                     key={c.id}
                                     />
                                      </Link>   

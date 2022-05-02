@@ -12,8 +12,10 @@ const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
+
+//informacion de la api
 const getApiInfo = async () => {
-    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=5`);
+    const apiUrl = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=100`);
     const apiInfo = await apiUrl.data.results?.map(el => {
         return {
             id: el.id,
@@ -25,6 +27,7 @@ const getApiInfo = async () => {
             score: el.spoonacularScore,
             healthScore: el.healthScore,
             steps: el.analyzedInstructions[0]?.steps.map(pos=>{
+              
               return pos.step
           })
         };
@@ -32,6 +35,7 @@ const getApiInfo = async () => {
     return apiInfo;
 }
 
+//Informacion de la db
 const GetDbInfo = async () => {
   return await Recipe.findAll({
       include:{
@@ -44,14 +48,15 @@ const GetDbInfo = async () => {
   })
 }
 
+//Se combinan las constantes de la api y la db
 const getAllRecipes = async () => {
-  let apiInfo = await getApiInfo();
+  const apiInfo = await getApiInfo();
   const dbInfo = await GetDbInfo();
-  const infoTotal =apiInfo.concat(dbInfo);
+  const infoTotal = apiInfo.concat(dbInfo);
   return infoTotal
 }
 
-
+//rutas
 router.get("/recipes", async (req, res) => {
   const { name } = req.query;
       const recipesTotal = await getAllRecipes()
@@ -63,7 +68,7 @@ router.get("/recipes", async (req, res) => {
           );
           recipeTitle.length
               ? res.status(200).json(recipeTitle)
-              : res.status(400).send("This recipe doesn't exist");
+              : res.status(400).send("El recipe no existe");
       } else {
           res.status(200).json(recipesTotal);
       }

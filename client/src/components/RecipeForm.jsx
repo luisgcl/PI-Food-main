@@ -30,7 +30,6 @@ export default function RecipeForm () {
     }
 
     function handleSelect(e) {
-        console.log(e.target.value)
         setInput({
             ...input,
             diets: input.diets.includes(e.target.value) ? input.diets : [...input.diets, e.target.value]

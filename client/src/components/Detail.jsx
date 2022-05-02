@@ -2,7 +2,7 @@ import React from "react";
 import { Link , useParams} from "react-router-dom"
 import { useDispatch , useSelector } from "react-redux"
 import { useEffect } from "react";
-import { getDetail, vaciarDetail } from "../actions";
+import { getDetail } from "../actions";
 import styles from "./Detail.module.css"
 
 export default function DetailRecipe(){
@@ -10,24 +10,24 @@ export default function DetailRecipe(){
     const dispatch = useDispatch()
     let { id }= useParams()
     const detailRecipe = useSelector((state) => state.id) 
-    console.log(id)
+  
     useEffect(() => {
         dispatch(getDetail(id))
     },[dispatch,id])
 
-    console.log(detailRecipe.diets)
+    
     return (
         <div className={styles.container}>
             <div>
             {
                 (detailRecipe.length === 0) ? 
                     <div className={styles.container}>
-                        <p className={styles.loading}>Loading ...</p>
+                        <p className={styles.loading}></p>
                     </div> 
                 :
                     <div className={styles.box}>
                         <h1>{detailRecipe.name}</h1>
-                        <img className={styles.image} src={detailRecipe[0].image ? detailRecipe[0].image : "https://www.vidasostenible.org/wp-content/uploads/2018/06/tresplatoscocinasostenible.jpg"} alt="No Found"/>
+                        <img className={styles.image} src={detailRecipe[0].image ? detailRecipe[0].image : "https://s1.eestatic.com/2019/07/05/cocinillas/recetas/recetas_411470241_127377432_1706x960.jpg"} alt="No Found"/>
                         <h1 className={styles.mainTitle}>{detailRecipe.title}</h1>
                         <h3 className={styles.subTitle}>Summary</h3>
                         <p className={styles.info}>{detailRecipe[0].summary}</p>

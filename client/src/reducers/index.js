@@ -1,3 +1,5 @@
+import { buttonDiet } from "../actions"
+
 const initialState = {
     recipes: [],
     allRecipes: [],
@@ -19,7 +21,7 @@ function rootReducer(state = initialState, action) {
                    ...state,
                 diets: action.payload
                }
-               case 'GET_NAME_GAMES':
+               case 'GET_NAME_RECIPES':
                 return {
                     ...state,
                     recipes: action.payload
@@ -29,11 +31,7 @@ function rootReducer(state = initialState, action) {
                     ...state,
                     id: action.payload
                 }
-                case 'VACIAR_DETAIL':
-                    return {
-                        ...state,
-                        id: []
-                    }
+                
                 case 'ORDER_BY_NAME':
             let sortedArr = action.payload === 'asc' ? state.recipes.sort((a, b) => {
                 if (a.name > b.name) return 1
@@ -82,7 +80,11 @@ function rootReducer(state = initialState, action) {
                           ...state,
                           recipes: dietFiltered,
                         }
-                        case 'POST_GAME':
+                        case "BUTTON_DIET":
+                            const diet = state.allRecipes;
+                           let buttonDiet = diet.filter((e) => e.diets.includes(action.payload))
+                            console.log("soy un boton", buttonDiet)
+                        case 'POST_RECIPE':
                             return {
                                 ...state
                             }
